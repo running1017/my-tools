@@ -1,0 +1,15 @@
+{
+	"name": "MyTools",
+	"build": {
+		"dockerfile": "Dockerfile",
+	},
+	"settings": {},
+	"extensions": [
+		"octref.vetur",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"formulahendry.auto-close-tag",
+		"formulahendry.auto-rename-tag"
+	],
+	"remoteUser": "node"
+}
