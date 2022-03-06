@@ -9,6 +9,22 @@
         <v-row>
             <v-col>
                 <v-card flat>
+                    <v-card-text>
+                        <v-textarea
+                            v-model="schedule"
+                            readonly
+                            solo
+                            rows="3"
+                            flat
+                        ></v-textarea>
+                    </v-card-text>
+                    <v-btn @click="copyToClipboard">コピー</v-btn>
+                </v-card>
+            </v-col>
+        </v-row>
+        <v-row>
+            <v-col>
+                <v-card flat>
                     <v-container>
                         <v-row>
                             <v-col
@@ -115,15 +131,6 @@
                 </v-card>
             </v-col>
         </v-row>
-        <v-row>
-            <v-col>
-                <v-card flat>
-                    <v-card-text>
-                        {{ formattedValues }}
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
     </v-container>
 </template>
 
@@ -134,7 +141,7 @@ export default {
         values: [
             {
                 date: new Date().toISOString().substr(0, 10),
-                timeRange: [9, 10],
+                timeRange: [10, 12],
                 id: 0,
             },
         ],
@@ -169,8 +176,45 @@ export default {
             });
             return formatted;
         },
+        schedule() {
+            return Object.keys(this.formattedValues)
+                .map((date) => {
+                    const formattedDate = this.dateFormatter(date);
+                    const formattedTime = this.timeListFormatter(
+                        this.formattedValues[date]
+                    );
+                    return formattedDate + formattedTime;
+                })
+                .join("\n");
+        },
     },
     methods: {
+        dateFormatter(dateStr) {
+            const dateObj = new Date(dateStr);
+            const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+            const date = String(dateObj.getDate()).padStart(2, "0");
+            const daysName = ["日", "月", "火", "水", "木", "金", "土"];
+            const day = daysName[dateObj.getDay()];
+            return `${month}/${date}（${day}）`;
+        },
+        timeListFormatter(timeList) {
+            return timeList
+                .map(([start, end]) => {
+                    const startStr = this.timeFormatter(start);
+                    const endStr = this.timeFormatter(end);
+                    return `${startStr}～${endStr}`;
+                })
+                .join("、");
+        },
+        timeFormatter(time) {
+            const hour = Math.floor(time);
+            const minute = (time - Math.floor(time)) * 60;
+            return (
+                String(hour).padStart(2, "0") +
+                ":" +
+                String(minute).padStart(2, "0")
+            );
+        },
         addValue() {
             // idはユニークかつ単調増加
             const newValue =
@@ -193,6 +237,16 @@ export default {
                 (el) => el.id === value.id
             );
             this.values.splice(updateIndex, 1, value);
+        },
+        copyToClipboard() {
+            navigator.clipboard
+                .writeText(this.schedule)
+                .then(() => {
+                    console.log("copied!");
+                })
+                .catch((e) => {
+                    console.error(e);
+                });
         },
     },
 };

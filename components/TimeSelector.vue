@@ -53,7 +53,7 @@
                     :max="sliderMax"
                     :step="sliderStep"
                     color="teal darken-1"
-                    thumb-label
+                    thumb-label="always"
                     thumb-size="40"
                     ticks
                     tick-size="4"
