@@ -1,17 +1,8 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-    >
+    <v-navigation-drawer v-model="drawer" app>
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-        >
+        <v-list-item v-for="(item, i) in items" :key="i" :to="item.to" router exact>
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -22,9 +13,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      app
-    >
+    <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
@@ -36,9 +25,7 @@
       </v-container>
     </v-main>
 
-    <v-footer
-      app
-    >
+    <v-footer app>
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
   </v-app>
@@ -47,23 +34,23 @@
 <script>
 export default {
   name: 'DefaultLayout',
-  data () {
+  data() {
     return {
       drawer: null,
       items: [
         {
           icon: 'mdi-apps',
           title: 'トップ',
-          to: '/'
+          to: '/',
         },
         {
           icon: 'mdi-clock-outline',
           title: 'スケジュール整形',
-          to: '/schedule'
-        }
+          to: '/schedule',
+        },
       ],
-      title: '便利ツール'
+      title: '便利ツール',
     }
-  }
+  },
 }
 </script>

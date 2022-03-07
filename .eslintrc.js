@@ -1,17 +1,17 @@
 module.exports = {
-    root: true,
-    env: {
-        browser: true,
-        node: true,
-    },
-    extends: [
-        "@nuxtjs/eslint-config-typescript",
-        "plugin:nuxt/recommended",
-        "plugin:prettier/recommended",
-    ],
-    plugins: ["vue", "prettier"],
-    // add your custom rules here
-    rules: {
-        "prettier/prettier": "warn",
-    },
-};
+  root: true,
+  env: {
+    es2020: true,
+    node: true,
+  },
+  extends: [
+    'eslint:recommended',
+    '@nuxtjs/eslint-config-typescript',
+    'plugin:nuxt/recommended',
+    'plugin:prettier/recommended',
+    'prettier',
+  ],
+  plugins: ['vue', 'prettier'],
+  // add your custom rules here
+  rules: {},
+}
