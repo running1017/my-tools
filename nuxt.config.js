@@ -17,6 +17,9 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    base: {
+      href: 'router.base',
+    },
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -69,4 +72,12 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  generate: {
+    dir: 'docs',
+  },
+
+  router: {
+    base: './',
+  },
 }
