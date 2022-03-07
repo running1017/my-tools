@@ -78,6 +78,6 @@ export default {
   },
 
   router: {
-    base: './',
+    base: '/my-tools/',
   },
 }
