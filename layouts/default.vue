@@ -45,11 +45,11 @@ export default {
         },
         {
           icon: 'mdi-clock-outline',
-          title: 'スケジュール整形',
+          title: 'スケジュール調整文',
           to: '/schedule',
         },
       ],
-      title: '便利ツール',
+      title: 'ツール集',
     }
   },
 }
