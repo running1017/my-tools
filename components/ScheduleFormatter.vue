@@ -1,10 +1,9 @@
 <template>
   <div>
-    <v-card flat>
+    <v-card flat :height="height" class="overflow-y-auto">
       <v-card-text>
-        <v-textarea v-model="schedule" readonly solo rows="3" flat></v-textarea>
+        <v-textarea v-model="schedule" readonly solo flat height="100%"></v-textarea>
       </v-card-text>
-      <v-btn @click="copyToClipboard">コピー</v-btn>
     </v-card>
 
     <v-snackbar v-model="snackbar">
@@ -28,6 +27,10 @@ export default {
           id: null,
         },
       ],
+    },
+    height: {
+      type: String,
+      default: '',
     },
   },
   data: () => ({

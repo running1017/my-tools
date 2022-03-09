@@ -4,31 +4,17 @@
       <h1>スケジュール整形</h1>
     </v-row>
     <v-row>
-      <p>ああああああ</p>
+      <p>ああああああ{{ $vuetify.breakpoint.name }}</p>
     </v-row>
     <v-row>
-      <v-col>
-        <ScheduleFormatter :values="values" />
+      <v-col cols="12" lg="5">
+        <ScheduleFormatter
+          :values="values"
+          :height="['lg', 'xl'].includes($vuetify.breakpoint.name) ? cardHeight : undefined"
+        />
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        <v-card flat>
-          <v-container>
-            <v-row>
-              <v-col v-for="value in values" :key="value.id" cols="12">
-                <TimeSelector
-                  :value="values.find((el) => el.id == value.id)"
-                  :step-minutes="stepMinutes"
-                  :start-time="startTime"
-                  :end-time="endTime"
-                  @input="updateValue"
-                  @delete="deleteValue(value.id)"
-                />
-                <v-divider></v-divider>
-              </v-col>
-            </v-row>
-          </v-container>
+      <v-col cols="12" lg="7">
+        <v-card flat :height="cardHeight" class="overflow-y-auto">
           <v-card-actions>
             <v-btn icon class="ml-6 mb-2" @click="addValue">
               <v-icon>mdi-plus-circle-outline</v-icon>
@@ -39,7 +25,7 @@
                   <v-icon>mdi-cog</v-icon>
                 </v-btn>
               </template>
-              <v-card color="grey darken-2">
+              <v-card color="grey darken-2" style="height: 50vh">
                 <v-container>
                   <v-row>
                     <v-col>
@@ -77,6 +63,21 @@
               </v-card>
             </v-dialog>
           </v-card-actions>
+          <v-container fluid>
+            <v-row>
+              <v-col v-for="value in values" :key="value.id" cols="12" class="py-0">
+                <v-divider></v-divider>
+                <TimeSelector
+                  :value="values.find((el) => el.id == value.id)"
+                  :step-minutes="stepMinutes"
+                  :start-time="startTime"
+                  :end-time="endTime"
+                  @input="updateValue"
+                  @delete="deleteValue(value.id)"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
         </v-card>
       </v-col>
     </v-row>
@@ -117,6 +118,25 @@ export default {
   head: () => ({
     title: 'スケジュール調整文',
   }),
+  computed: {
+    cardHeight() {
+      // 画面サイズに合わせて高さを変更する
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+          return '300px'
+        case 'sm':
+          return '400px'
+        case 'md':
+          return '500px'
+        case 'lg':
+          return '600px'
+        case 'xl':
+          return '700px'
+        default:
+          return undefined
+      }
+    },
+  },
   methods: {
     addValue() {
       // idはユニークかつ単調増加
@@ -127,9 +147,9 @@ export default {
               timeRange: [0, 10],
               id: -1,
             }
-          : { ...this.values[this.values.length - 1] }
+          : { ...this.values[0] }
       newValue.id += 1
-      this.values.push(newValue)
+      this.values.unshift(newValue)
     },
     deleteValue(id) {
       const deleteIndex = this.values.findIndex((el) => el.id === id)
@@ -142,3 +162,17 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #1e1e1e;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background: #6a6a6a;
+  border-radius: 5px;
+}
+</style>

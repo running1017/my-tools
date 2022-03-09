@@ -1,5 +1,5 @@
 <template>
-  <v-container class="px-8">
+  <v-container class="px-8 pb-1">
     <v-row align="end">
       <v-tooltip top>
         <template #activator="{ on, attrs }">
@@ -9,7 +9,7 @@
         </template>
         <span>削除</span>
       </v-tooltip>
-      <v-col align-self="start" cols="10" md="4">
+      <v-col align-self="start" cols="12" md="3">
         <v-subheader>日付選択</v-subheader>
         <v-menu
           ref="menu"
