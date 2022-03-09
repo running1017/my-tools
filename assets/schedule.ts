@@ -62,8 +62,8 @@ const valueFormatter = (
    *  {date: '2022-03-08', timeRange: [8.5, 10], id: 1},
    *  {date: '2022-03-09', timeRange: [9, 11], id: 2},]
    *   => {
-   *   2022-03-08: [[8.5, 10]]
    *   2022-03-09: [[8.5, 11]]
+   *   2022-03-08: [[8.5, 10]]
    * }
    */
   const formatted: FormattedDateTime = {}
@@ -86,14 +86,14 @@ const valueFormatter = (
 }
 
 const mergeRanges = (timeList: Array<TimeRange>): Array<TimeRange> => {
-  /* TimeRangeの重複を併合して時刻が早い順に並べ替える
+  /* TimeRangeの重複をマージして開始時刻が早い順に並べ替える
    * [[13, 16], [14, 17], [8, 9]]
    *   => [[8, 9], [13, 17]]
    */
   const sorted = Array.from(timeList).sort((a, b) => a[0] - b[0])
   const merged = [sorted[0]]
   sorted.slice(1).forEach((next) => {
-    // mergedの最終要素の終了時刻より開始時刻が早い場合は重複しているので併合
+    // mergedの最終要素の終了時刻より開始時刻が早い場合は重複しているのでマージ
     const last = merged[merged.length - 1]
     if (next[0] <= last[1]) {
       last[1] = Math.max(next[1], last[1])
@@ -105,8 +105,16 @@ const mergeRanges = (timeList: Array<TimeRange>): Array<TimeRange> => {
 }
 
 export const scheduleFormatter = (datetimeList: Array<DateTime>): string => {
+  /* スケジュール調整用の文面へ整形する
+   * [{date: '2022-03-09', timeRange: [8.5, 10], id: 0},
+   *  {date: '2022-03-08', timeRange: [8.5, 10], id: 1},
+   *  {date: '2022-03-09', timeRange: [9, 11], id: 2},]
+   *   => '03/08（火）08:30～10:00\n
+   *       03/09（水）08:30～11:00'
+   */
   const formattedDatetime = valueFormatter(datetimeList)
   return Object.keys(formattedDatetime)
+    .sort() // 日付順にソート
     .map((date) => {
       const formattedDate = dateFormatter(date)
       const formattedTime = timeListFormatter(formattedDatetime[date])
