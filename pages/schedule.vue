@@ -8,10 +8,21 @@
     </v-row>
     <v-row>
       <v-col cols="12" lg="5">
-        <ScheduleFormatter
-          :values="values"
+        <v-card
+          flat
+          class="overflow-y-auto"
           :height="['lg', 'xl'].includes($vuetify.breakpoint.name) ? cardHeight : undefined"
-        />
+        >
+          <v-card-actions class="pa-4">
+            <v-btn text outlined color="teal lighten-5" @click="copyToClipboard">
+              <v-icon>mdi-content-copy</v-icon><v-spacer></v-spacer>コピー
+            </v-btn>
+          </v-card-actions>
+          <v-divider class="mx-2"></v-divider>
+          <v-card-text>
+            <ScheduleFormatter ref="viewer" :values="values" />
+          </v-card-text>
+        </v-card>
       </v-col>
       <v-col cols="12" lg="7">
         <v-card flat :height="cardHeight" class="overflow-y-auto">
@@ -19,13 +30,14 @@
             <v-btn icon class="ml-6 mb-2" @click="addValue">
               <v-icon>mdi-plus-circle-outline</v-icon>
             </v-btn>
-            <v-dialog v-model="setting" width="500">
+            <v-dialog v-model="setting" width="400">
               <template #activator="{ on, attrs }">
                 <v-btn v-bind="attrs" icon class="mx-6 mb-2" v-on="on">
                   <v-icon>mdi-cog</v-icon>
                 </v-btn>
               </template>
-              <v-card color="grey darken-2" style="height: 50vh">
+              <v-card color="grey darken-2">
+                <v-card-title>オプション</v-card-title>
                 <v-container>
                   <v-row>
                     <v-col>
@@ -158,6 +170,9 @@ export default {
     updateValue(value) {
       const updateIndex = this.values.findIndex((el) => el.id === value.id)
       this.values.splice(updateIndex, 1, value)
+    },
+    copyToClipboard() {
+      this.$refs.viewer.copyToClipboard()
     },
   },
 }

@@ -1,10 +1,6 @@
 <template>
   <div>
-    <v-card flat :height="height" class="overflow-y-auto">
-      <v-card-text>
-        <v-textarea v-model="schedule" readonly solo flat height="100%"></v-textarea>
-      </v-card-text>
-    </v-card>
+    <v-textarea v-model="schedule" readonly solo flat auto-grow></v-textarea>
 
     <v-snackbar v-model="snackbar">
       {{ noticeText }}
