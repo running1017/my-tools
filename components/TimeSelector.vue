@@ -20,7 +20,7 @@
         >
           <template #activator="{ attrs, on }">
             <v-text-field
-              v-model="datetime"
+              v-model="formattedDate"
               prepend-icon="mdi-calendar"
               v-bind="attrs"
               dense
@@ -43,9 +43,9 @@
         <v-subheader>時刻選択</v-subheader>
         <v-range-slider
           v-model="timeRange"
-          :min="sliderMin"
-          :max="sliderMax"
-          :step="sliderStep"
+          :min="startTime"
+          :max="endTime"
+          :step="stepMinutes / 60"
           color="teal darken-1"
           thumb-label="always"
           thumb-size="40"
@@ -63,6 +63,8 @@
 </template>
 
 <script>
+import { timeFormatter, dateFormatter } from '@/assets/schedule'
+
 export default {
   name: 'TimeSelector',
   props: {
@@ -89,7 +91,6 @@ export default {
   },
   data: () => ({
     menu: false,
-    daysName: ['日', '月', '火', '水', '木', '金', '土'],
   }),
   computed: {
     date: {
@@ -103,8 +104,8 @@ export default {
     timeLabels() {
       const length = ((this.endTime - this.startTime) / this.stepMinutes) * 60
       const labels = Array(length)
-      labels[0] = this.timeFormatter(this.startTime)
-      labels.push(this.timeFormatter(this.endTime))
+      labels[0] = timeFormatter(this.startTime)
+      labels.push(timeFormatter(this.endTime))
       return labels
     },
     timeRange: {
@@ -115,29 +116,12 @@ export default {
         this.updateValue({ timeRange })
       },
     },
-    sliderMin() {
-      return this.startTime
-    },
-    sliderMax() {
-      return this.endTime
-    },
-    sliderStep() {
-      return this.stepMinutes / 60
-    },
-    datetime() {
-      const dateObj = new Date(this.date)
-      const month = String(dateObj.getMonth() + 1).padStart(2, '0')
-      const date = String(dateObj.getDate()).padStart(2, '0')
-      const day = this.daysName[dateObj.getDay()]
-      return `${month}/${date}（${day}）`
+    formattedDate() {
+      return dateFormatter(this.date)
     },
   },
   methods: {
-    timeFormatter(time) {
-      const hour = Math.floor(time)
-      const minute = (time - Math.floor(time)) * 60
-      return String(hour).padStart(2, '0') + ':' + String(minute).padStart(2, '0')
-    },
+    timeFormatter,
     save(date) {
       this.$refs.menu.save(date)
     },
