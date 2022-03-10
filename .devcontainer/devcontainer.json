@@ -1,0 +1,20 @@
+{
+	"name": "MyTools",
+	"build": {
+		"dockerfile": "Dockerfile",
+	},
+	"settings": {
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
+	},
+	"extensions": [
+		"octref.vetur",
+		"esbenp.prettier-vscode",
+		"dbaeumer.vscode-eslint",
+		"eamodio.gitlens",
+		"formulahendry.auto-close-tag",
+		"formulahendry.auto-rename-tag"
+	],
+	"remoteUser": "node"
+}
