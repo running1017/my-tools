@@ -4,40 +4,29 @@
       <h1>スケジュール整形</h1>
     </v-row>
     <v-row>
-      <p>ああああああ{{ $vuetify.breakpoint.name }}</p>
+      <p>打ち合わせの日程調整時にメールで送る文面を作成するツールです。</p>
+      <p>s</p>
     </v-row>
     <v-row>
       <v-col cols="12" lg="5">
-        <v-card
-          flat
-          class="overflow-y-auto"
-          :height="['lg', 'xl'].includes($vuetify.breakpoint.name) ? cardHeight : undefined"
-        >
+        <v-card flat>
           <v-card-actions class="pa-4">
-            <v-btn text outlined color="teal lighten-5" @click="copyToClipboard">
-              <v-icon>mdi-content-copy</v-icon><v-spacer></v-spacer>コピー
-            </v-btn>
-          </v-card-actions>
-          <v-divider class="mx-2"></v-divider>
-          <v-card-text>
-            <ScheduleFormatter ref="viewer" :values="values" />
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" lg="7">
-        <v-card flat :height="cardHeight" class="overflow-y-auto">
-          <v-card-actions>
-            <v-btn icon class="ml-6 mb-2" @click="addValue">
-              <v-icon>mdi-plus-circle-outline</v-icon>
-            </v-btn>
-            <v-dialog v-model="setting" width="400">
+            <v-btn text outlined color="teal lighten-5" class="mr-4" @click="copyToClipboard">
+              <v-icon>mdi-content-copy</v-icon>コピー </v-btn
+            ><v-dialog v-model="setting" width="400">
               <template #activator="{ on, attrs }">
-                <v-btn v-bind="attrs" icon class="mx-6 mb-2" v-on="on">
-                  <v-icon>mdi-cog</v-icon>
+                <v-btn v-bind="attrs" text outlined color="teal lighten-5" v-on="on">
+                  <v-icon>mdi-cog</v-icon>オプション
                 </v-btn>
               </template>
               <v-card color="grey darken-2">
-                <v-card-title>オプション</v-card-title>
+                <v-card-title>
+                  オプション
+                  <v-spacer></v-spacer>
+                  <v-btn text color="teal lighten-5" @click="setting = false">
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-card-title>
                 <v-container>
                   <v-row>
                     <v-col>
@@ -47,12 +36,14 @@
                           v-model="startTime"
                           label="開始時刻"
                           dense
+                          color="teal lighten-2"
                           :items="startTimeChoices"
                         ></v-select>
                         <v-select
                           v-model="endTime"
                           label="終了時刻"
                           dense
+                          color="teal lighten-2"
                           :items="endTimeChoices"
                         ></v-select>
                       </v-card-text>
@@ -66,6 +57,7 @@
                         <v-select
                           v-model="stepMinutes"
                           dense
+                          color="teal lighten-2"
                           :items="stepMinutesChoices"
                         ></v-select>
                       </v-card-text>
@@ -75,10 +67,28 @@
               </v-card>
             </v-dialog>
           </v-card-actions>
-          <v-container fluid>
-            <v-row>
-              <v-col v-for="value in values" :key="value.id" cols="12" class="py-0">
-                <v-divider></v-divider>
+          <v-divider class="mx-2"></v-divider>
+          <v-card
+            flat
+            class="overflow-y-auto"
+            :height="['lg', 'xl'].includes($vuetify.breakpoint.name) ? cardHeight : undefined"
+          >
+            <ScheduleFormatter ref="viewer" :values="values" />
+          </v-card>
+        </v-card>
+      </v-col>
+
+      <v-col cols="12" lg="7">
+        <v-card flat>
+          <v-card-actions class="pa-4">
+            <v-btn text outlined color="teal lighten-5" @click="addValue">
+              <v-icon>mdi-plus-circle-outline</v-icon>候補追加
+            </v-btn>
+          </v-card-actions>
+          <v-divider class="mx-2"></v-divider>
+          <v-card flat :height="cardHeight" class="overflow-y-auto">
+            <transition-group name="time-selector">
+              <div v-for="value in values" :key="value.id" class="py-0 mx-2 time-selector-item">
                 <TimeSelector
                   :value="values.find((el) => el.id == value.id)"
                   :step-minutes="stepMinutes"
@@ -87,9 +97,10 @@
                   @input="updateValue"
                   @delete="deleteValue(value.id)"
                 />
-              </v-col>
-            </v-row>
-          </v-container>
+                <v-divider></v-divider>
+              </div>
+            </transition-group>
+          </v-card>
         </v-card>
       </v-col>
     </v-row>
@@ -131,9 +142,12 @@ export default {
     title: 'スケジュール調整文',
   }),
   computed: {
+    breakpoint() {
+      return this.$vuetify.breakpoint.name
+    },
     cardHeight() {
       // 画面サイズに合わせて高さを変更する
-      switch (this.$vuetify.breakpoint.name) {
+      switch (this.breakpoint) {
         case 'xs':
           return '300px'
         case 'sm':
@@ -156,7 +170,7 @@ export default {
         this.values.length === 0
           ? {
               date: new Date().toISOString().substr(0, 10),
-              timeRange: [0, 10],
+              timeRange: [10, 12],
               id: -1,
             }
           : { ...this.values[0] }
@@ -189,5 +203,19 @@ export default {
 ::-webkit-scrollbar-thumb {
   background: #6a6a6a;
   border-radius: 5px;
+}
+
+.time-selector-item {
+  transition: all 0.5s ease;
+}
+
+.time-selector-enter-from,
+.time-selector-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.time-selector-leave-active {
+  position: absolute;
 }
 </style>
