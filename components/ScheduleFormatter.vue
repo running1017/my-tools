@@ -1,6 +1,38 @@
 <template>
   <div>
-    <v-textarea v-model="schedule" readonly solo flat auto-grow></v-textarea>
+    <v-container fluid class="mt-4">
+      <v-row class="mx-2">
+        <v-textarea
+          v-model="header"
+          label="ヘッダー"
+          :color="color"
+          outlined
+          rows="1"
+          auto-grow
+        ></v-textarea>
+      </v-row>
+      <v-row class="mx-2">
+        <v-textarea
+          v-model="schedule"
+          label="日程候補（自動入力）"
+          :color="color"
+          outlined
+          readonly
+          rows="1"
+          auto-grow
+        ></v-textarea>
+      </v-row>
+      <v-row class="mx-2">
+        <v-textarea
+          v-model="footer"
+          label="フッター"
+          :color="color"
+          outlined
+          rows="1"
+          auto-grow
+        ></v-textarea>
+      </v-row>
+    </v-container>
 
     <v-snackbar v-model="snackbar">
       {{ noticeText }}
@@ -24,10 +56,6 @@ export default {
         },
       ],
     },
-    height: {
-      type: String,
-      default: '',
-    },
   },
   data: () => ({
     snackbar: false,
@@ -37,11 +65,30 @@ export default {
     schedule() {
       return scheduleFormatter(this.values)
     },
+    color() {
+      return this.$store.state.schedule.VSelectColor
+    },
+    header: {
+      get() {
+        return this.$store.state.schedule.header
+      },
+      set(newHeader) {
+        this.$store.commit('schedule/setHeader', newHeader)
+      },
+    },
+    footer: {
+      get() {
+        return this.$store.state.schedule.footer
+      },
+      set(newFooter) {
+        this.$store.commit('schedule/setFooter', newFooter)
+      },
+    },
   },
   methods: {
     copyToClipboard() {
       navigator.clipboard
-        .writeText(this.schedule)
+        .writeText(this.header + '\n\n' + this.schedule + '\n\n' + this.footer)
         .then(() => {
           this.noticeText = 'コピー成功'
         })

@@ -11,8 +11,9 @@
         <v-card flat>
           <v-card-actions class="pa-4">
             <v-btn text outlined color="teal lighten-5" class="mr-4" @click="copyToClipboard">
-              <v-icon>mdi-content-copy</v-icon>コピー </v-btn
-            ><v-dialog v-model="setting" width="400">
+              <v-icon>mdi-content-copy</v-icon>コピー
+            </v-btn>
+            <v-dialog v-model="setting" width="400">
               <template #activator="{ on, attrs }">
                 <v-btn v-bind="attrs" text outlined color="teal lighten-5" v-on="on">
                   <v-icon>mdi-cog</v-icon>オプション
@@ -70,7 +71,7 @@
           <v-card
             flat
             class="overflow-y-auto"
-            :height="['lg', 'xl'].includes($vuetify.breakpoint.name) ? cardHeight : undefined"
+            :height="$vuetify.breakpoint.lg ? cardHeight : undefined"
           >
             <ScheduleFormatter ref="viewer" :values="values" />
           </v-card>
