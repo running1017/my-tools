@@ -8,60 +8,49 @@ type DateTime = {
 type FormattedDateTime = {
   [date: string]: Array<TimeRange>
 }
-type Options = {
-  datePadding: number
-  timePadding: number
-  timeSeparator: string
-  comma: string
-  bullet: string
-}
 
-// 整形オプション
-const options: Options = {
-  datePadding: 2,
-  timePadding: 2,
-  timeSeparator: '～',
-  comma: '、',
-  bullet: '・',
-}
-
-export const dateFormatter = (dateStr: string): string => {
+export const dateFormatter = (dateStr: string, datePadding: number): string => {
   /* YYYY-MM-DD表記をMM/DD（曜日）形式に変換
    * '2022-03-09' => '03/09（水）'
    */
   const dateObj = new Date(dateStr)
-  const month = String(dateObj.getMonth() + 1).padStart(options.datePadding, '0')
-  const date = String(dateObj.getDate()).padStart(options.datePadding, '0')
+  const month = String(dateObj.getMonth() + 1).padStart(datePadding, '0')
+  const date = String(dateObj.getDate()).padStart(datePadding, '0')
   const daysName = ['日', '月', '火', '水', '木', '金', '土']
   const day = daysName[dateObj.getDay()]
   return `${month}/${date}（${day}）`
 }
 
-export const timeFormatter = (time: number): string => {
+export const timeFormatter = (time: number, timePadding: number): string => {
   /* 時刻表記の数値をHH:MM形式の文字列に変換
    * 5     => '05:00'
    * 7.5   => '07:30'
    * 12.25 => '12:15'
    */
   const hour: number = Math.floor(time)
-  const hourStr: string = String(hour).padStart(options.timePadding, '0')
+  const hourStr: string = String(hour).padStart(timePadding, '0')
   const minute: number = (time - Math.floor(time)) * 60
-  const minStr: string = String(minute).padStart(options.timePadding, '0')
+  const minStr: string = String(minute).padStart(timePadding, '0')
   return `${hourStr}:${minStr}`
 }
 
-export const timeListFormatter = (timeList: Array<TimeRange>): string => {
+export const timeListFormatter = (
+  timeList: Array<TimeRange>,
+  timePadding: number,
+  timeSeparator: string,
+  comma: string
+): string => {
   /* 時刻幅のリストをtimeFormatterを利用して文字列に変換
    * [[1.5, 3], [10, 15.25]]
    *   => '01:30～03:00、10:00～15:15'
    */
   return timeList
     .map(([start, end]) => {
-      const startStr = timeFormatter(start)
-      const endStr = timeFormatter(end)
-      return `${startStr}${options.timeSeparator}${endStr}`
+      const startStr = timeFormatter(start, timePadding)
+      const endStr = timeFormatter(end, timePadding)
+      return `${startStr}${timeSeparator}${endStr}`
     })
-    .join(options.comma)
+    .join(comma)
 }
 
 const valueFormatter = (
@@ -115,7 +104,14 @@ const mergeRanges = (timeList: Array<TimeRange>): Array<TimeRange> => {
   return merged
 }
 
-export const scheduleFormatter = (datetimeList: Array<DateTime>): string => {
+export const scheduleFormatter = (
+  datetimeList: Array<DateTime>,
+  datePadding: number,
+  timePadding: number,
+  timeSeparator: string,
+  comma: string,
+  bullet: string
+): string => {
   /* スケジュール調整用の文面へ整形する
    * [{date: '2022-03-09', timeRange: [8.5, 10], id: 0},
    *  {date: '2022-03-08', timeRange: [8.5, 10], id: 1},
@@ -127,9 +123,14 @@ export const scheduleFormatter = (datetimeList: Array<DateTime>): string => {
   return Object.keys(formattedDatetime)
     .sort() // 日付順にソート
     .map((date) => {
-      const formattedDate = dateFormatter(date)
-      const formattedTime = timeListFormatter(formattedDatetime[date])
-      return options.bullet + formattedDate + formattedTime
+      const formattedDate = dateFormatter(date, datePadding)
+      const formattedTime = timeListFormatter(
+        formattedDatetime[date],
+        timePadding,
+        timeSeparator,
+        comma
+      )
+      return bullet + formattedDate + formattedTime
     })
     .join('\n')
 }
