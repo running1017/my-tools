@@ -63,7 +63,7 @@ export default {
   }),
   computed: {
     schedule() {
-      return scheduleFormatter(this.values)
+      return scheduleFormatter(this.values, ...this.$store.getters['schedule/formatOptions'])
     },
     color() {
       return this.$store.state.schedule.VSelectColor

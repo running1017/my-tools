@@ -48,7 +48,7 @@
               :tick-labels="timeLabels"
             >
               <template #thumb-label="{ value: sliderValue }">
-                {{ timeFormatter(sliderValue) }}
+                {{ timeFormatter(sliderValue, true) }}
               </template>
             </v-range-slider>
           </v-col>
@@ -80,18 +80,6 @@ export default {
         id: null,
       }),
     },
-    stepMinutes: {
-      type: Number,
-      default: 30,
-    },
-    startTime: {
-      type: Number,
-      default: 8.0,
-    },
-    endTime: {
-      type: Number,
-      default: 18.0,
-    },
   },
   data: () => ({
     menu: false,
@@ -104,6 +92,15 @@ export default {
       set(date) {
         this.updateValue({ date })
       },
+    },
+    stepMinutes() {
+      return this.$store.state.schedule.stepMinutes
+    },
+    startTime() {
+      return this.$store.state.schedule.startTime
+    },
+    endTime() {
+      return this.$store.state.schedule.endTime
     },
     timeLabels() {
       const length = ((this.endTime - this.startTime) / this.stepMinutes) * 60 + 1
@@ -124,7 +121,7 @@ export default {
       },
     },
     formattedDate() {
-      return dateFormatter(this.date)
+      return dateFormatter(this.date, true)
     },
   },
   methods: {
