@@ -2,8 +2,8 @@ export const state = () => ({
   VSelectColor: 'teal lighten-2',
   header: '下記からご都合の良い日程はございますでしょうか。',
   footer: 'よろしくお願いいたします。',
-  datePadding: 2,
-  timePadding: 2,
+  datePadding: true,
+  timePadding: true,
   timeSeparator: '～',
   comma: '、',
   bullet: '・',
@@ -13,21 +13,16 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setHeader(state, newHeader) {
-    state.header = newHeader
-  },
-  setFooter(state, newFooter) {
-    state.footer = newFooter
-  },
-  setStepMinutes(state, stepMinutes) {
-    state.stepMinutes = stepMinutes
-  },
-  setStartTime(state, startTime) {
-    state.startTime = startTime
-  },
-  setEndTime(state, endTime) {
-    state.endTime = endTime
-  },
+  setHeader: (state, newHeader) => (state.header = newHeader),
+  setFooter: (state, newFooter) => (state.footer = newFooter),
+  setDatePadding: (state, datePadding) => (state.datePadding = datePadding),
+  setTimePadding: (state, timePadding) => (state.timePadding = timePadding),
+  setTimeSeparator: (state, timeSeparator) => (state.timeSeparator = timeSeparator),
+  setComma: (state, comma) => (state.comma = comma),
+  setBullet: (state, bullet) => (state.bullet = bullet),
+  setStepMinutes: (state, stepMinutes) => (state.stepMinutes = stepMinutes),
+  setStartTime: (state, startTime) => (state.startTime = startTime),
+  setEndTime: (state, endTime) => (state.endTime = endTime),
 }
 
 export const actions = {

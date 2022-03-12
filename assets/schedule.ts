@@ -9,34 +9,36 @@ type FormattedDateTime = {
   [date: string]: Array<TimeRange>
 }
 
-export const dateFormatter = (dateStr: string, datePadding: number): string => {
+export const dateFormatter = (dateStr: string, datePadding: boolean): string => {
   /* YYYY-MM-DD表記をMM/DD（曜日）形式に変換
    * '2022-03-09' => '03/09（水）'
    */
+  const padding = datePadding ? 2 : 0
   const dateObj = new Date(dateStr)
-  const month = String(dateObj.getMonth() + 1).padStart(datePadding, '0')
-  const date = String(dateObj.getDate()).padStart(datePadding, '0')
+  const month = String(dateObj.getMonth() + 1).padStart(padding, '0')
+  const date = String(dateObj.getDate()).padStart(padding, '0')
   const daysName = ['日', '月', '火', '水', '木', '金', '土']
   const day = daysName[dateObj.getDay()]
   return `${month}/${date}（${day}）`
 }
 
-export const timeFormatter = (time: number, timePadding: number): string => {
+export const timeFormatter = (time: number, timePadding: boolean): string => {
   /* 時刻表記の数値をHH:MM形式の文字列に変換
    * 5     => '05:00'
    * 7.5   => '07:30'
    * 12.25 => '12:15'
    */
+  const padding = timePadding ? 2 : 0
   const hour: number = Math.floor(time)
-  const hourStr: string = String(hour).padStart(timePadding, '0')
+  const hourStr: string = String(hour).padStart(padding, '0')
   const minute: number = (time - Math.floor(time)) * 60
-  const minStr: string = String(minute).padStart(timePadding, '0')
+  const minStr: string = String(minute).padStart(2, '0')
   return `${hourStr}:${minStr}`
 }
 
 export const timeListFormatter = (
   timeList: Array<TimeRange>,
-  timePadding: number,
+  timePadding: boolean,
   timeSeparator: string,
   comma: string
 ): string => {
@@ -106,8 +108,8 @@ const mergeRanges = (timeList: Array<TimeRange>): Array<TimeRange> => {
 
 export const scheduleFormatter = (
   datetimeList: Array<DateTime>,
-  datePadding: number,
-  timePadding: number,
+  datePadding: boolean,
+  timePadding: boolean,
   timeSeparator: string,
   comma: string,
   bullet: string

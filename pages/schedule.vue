@@ -70,6 +70,7 @@ export default {
         id: 0,
       },
     ],
+    setting: false,
   }),
   head: () => ({
     title: 'スケジュール調整文',

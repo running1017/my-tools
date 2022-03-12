@@ -48,7 +48,7 @@
               :tick-labels="timeLabels"
             >
               <template #thumb-label="{ value: sliderValue }">
-                {{ timeFormatter(sliderValue, 2) }}
+                {{ timeFormatter(sliderValue, true) }}
               </template>
             </v-range-slider>
           </v-col>
@@ -121,7 +121,7 @@ export default {
       },
     },
     formattedDate() {
-      return dateFormatter(this.date, 2)
+      return dateFormatter(this.date, true)
     },
   },
   methods: {
