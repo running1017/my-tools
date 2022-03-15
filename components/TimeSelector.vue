@@ -124,6 +124,11 @@ export default {
       return dateFormatter(this.date, true)
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.menu = true
+    })
+  },
   methods: {
     timeFormatter,
     save(date) {
