@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <h1>スケジュール整形</h1>
+      <h1>スケジュール調整文</h1>
     </v-row>
     <v-row>
       <p>打ち合わせの日程調整時にメールで送る文面を作成するツールです。</p>
@@ -26,7 +26,7 @@
           <v-card
             flat
             class="overflow-y-auto"
-            :height="$vuetify.breakpoint.lg ? cardHeight : undefined"
+            :height="$vuetify.breakpoint.lgAndUp ? cardHeight : undefined"
           >
             <ScheduleFormatter ref="viewer" :values="values" />
           </v-card>
@@ -76,22 +76,17 @@ export default {
     title: 'スケジュール調整文',
   }),
   computed: {
-    breakpoint() {
-      return this.$vuetify.breakpoint.name
-    },
     cardHeight() {
       // 画面サイズに合わせて高さを変更する
-      switch (this.breakpoint) {
+      switch (this.$vuetify.breakpoint.name) {
         case 'xs':
-          return '300px'
         case 'sm':
-          return '400px'
         case 'md':
-          return '500px'
+          return '400px'
         case 'lg':
-          return '600px'
+          return '500px'
         case 'xl':
-          return '700px'
+          return '630px'
         default:
           return undefined
       }
