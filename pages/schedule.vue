@@ -19,7 +19,7 @@
                   <v-icon>mdi-cog</v-icon>オプション
                 </v-btn>
               </template>
-              <SettingOptions @close="setting = false" />
+              <ScheduleOptions @close="setting = false" />
             </v-dialog>
           </v-card-actions>
           <v-divider class="mx-2"></v-divider>
@@ -44,7 +44,7 @@
           <v-card flat :height="cardHeight" class="overflow-y-auto">
             <transition-group name="time-selector">
               <div v-for="value in values" :key="value.id" class="py-0 mx-2 time-selector-item">
-                <TimeSelector
+                <ScheduleTimeSelector
                   :value="values.find((el) => el.id == value.id)"
                   @input="updateValue"
                   @delete="deleteValue(value.id)"

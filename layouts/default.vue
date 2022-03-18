@@ -48,6 +48,11 @@ export default {
           title: 'スケジュール調整文',
           to: '/schedule',
         },
+        {
+          icon: 'mdi-shimmer',
+          title: 'テキスト整形',
+          to: '/text-formatter',
+        },
       ],
       title: 'ツール集',
     }

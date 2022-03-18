@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { timeFormatter, dateFormatter } from '@/assets/schedule'
+import { timeFormatter, dateFormatter } from '~/assets/scheduleFunc'
 
 export default {
   name: 'TimeSelector',

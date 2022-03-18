@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import { scheduleFormatter } from '@/assets/schedule'
+import { scheduleFormatter } from '~/assets/scheduleFunc'
 
 export default {
   name: 'SchaduleFormatter',
