@@ -15,7 +15,8 @@
               nuxt
               :to="page.to"
               :elevation="hover ? 12 : 2"
-              :color="hover ? 'grey darken-3' : undefined"
+              :color="hover ? 'blue-grey darken-4' : undefined"
+              :class="{ 'on-hover': hover }"
               height="100%"
             >
               <v-img height="200" :src="imgPath + page.img" contain>
@@ -56,6 +57,10 @@ export default {
 
 <style scoped>
 .v-card {
-  transition: background-color 0.3s linear;
+  transition: background-color 0.3s, opacity 0.3s ease-in-out;
+}
+
+.v-card:not(.on-hover) {
+  opacity: 0.7;
 }
 </style>
