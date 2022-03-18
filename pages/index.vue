@@ -39,11 +39,15 @@ export default {
   name: 'IndexPage',
   data: () => ({
     pages,
-    imgPath: '/pageImage/',
   }),
   head: () => ({
     title: 'トップ',
   }),
+  computed: {
+    imgPath() {
+      return this.$router.options.base + 'pageImage/'
+    },
+  },
 }
 </script>
 

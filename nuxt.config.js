@@ -1,5 +1,7 @@
 import colors from 'vuetify/es5/util/colors'
 
+const base = process.env.NODE_ENV === 'production' ? '/my-tools/' : '/'
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -17,7 +19,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: base + 'favicon.ico' },
       {
         rel: 'stylesheet',
         href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500;700;900&display=swap',
@@ -84,6 +86,6 @@ export default {
   },
 
   router: {
-    base: '/my-tools/',
+    base,
   },
 }
