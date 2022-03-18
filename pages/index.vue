@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-text>トップページです</v-card-text>
+          <v-card-text>ツール集です。</v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import pages from '@/assets/pages/pages.ts'
+import pages from '@/assets/pages.ts'
 
 export default {
   name: 'IndexPage',
@@ -61,6 +61,6 @@ export default {
 }
 
 .v-card:not(.on-hover) {
-  opacity: 0.7;
+  opacity: 0.85;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <v-container>
     <v-row>
-      <h1>スケジュール調整文</h1>
+      <h1>{{ title }}</h1>
     </v-row>
     <v-row>
-      <p>打ち合わせの日程調整時にメールで送る文面を作成するツールです。</p>
+      <p>{{ description }}</p>
     </v-row>
     <v-row>
       <v-col cols="12" lg="5">
@@ -60,9 +60,15 @@
 </template>
 
 <script>
+import pages from '@/assets/pages.ts'
+const thisPage = pages.find((p) => p.to === '/schedule')
+const { title, description } = thisPage
+
 export default {
   name: 'SchedulePage',
   data: () => ({
+    title,
+    description,
     values: [
       {
         date: new Date().toISOString().substr(0, 10),
@@ -73,7 +79,7 @@ export default {
     setting: false,
   }),
   head: () => ({
-    title: 'スケジュール調整文',
+    title,
   }),
   computed: {
     cardHeight() {

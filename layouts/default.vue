@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import pages from '@/assets/pages/pages.ts'
+import pages from '@/assets/pages.ts'
 
 export default {
   name: 'DefaultLayout',
