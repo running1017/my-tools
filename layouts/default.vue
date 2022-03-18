@@ -21,7 +21,13 @@
 
     <v-main>
       <v-container>
-        <Nuxt />
+        <v-row>
+          <v-spacer></v-spacer>
+          <v-col cols="12" md="10">
+            <Nuxt />
+          </v-col>
+          <v-spacer></v-spacer>
+        </v-row>
       </v-container>
     </v-main>
 
@@ -32,6 +38,8 @@
 </template>
 
 <script>
+import pages from '@/assets/pages/pages.ts'
+
 export default {
   name: 'DefaultLayout',
   data() {
@@ -43,16 +51,7 @@ export default {
           title: 'トップ',
           to: '/',
         },
-        {
-          icon: 'mdi-clock-outline',
-          title: 'スケジュール調整文',
-          to: '/schedule',
-        },
-        {
-          icon: 'mdi-shimmer',
-          title: 'テキスト整形',
-          to: '/text-formatter',
-        },
+        ...pages,
       ],
       title: 'ツール集',
     }
