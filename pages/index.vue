@@ -22,9 +22,8 @@
               :src="imgPath + page.img"
               contain
               :class="{ 'on-hover': hover, 'align-end': true }"
-            >
-              <v-card-title color="red">{{ page.title }}</v-card-title>
-            </v-img>
+            ></v-img>
+            <v-card-title color="red">{{ page.title }}</v-card-title>
             <v-card-text>{{ page.description }}</v-card-text>
           </v-card>
         </v-hover>
