@@ -60,9 +60,8 @@
 </template>
 
 <script>
-import pages from '@/assets/pages.ts'
-const thisPage = pages.find((p) => p.to === '/schedule')
-const { title, description } = thisPage
+import pages from '~/assets/pages'
+const { title, description } = pages.find((p) => p.name === 'schedule')
 
 export default {
   name: 'SchedulePage',

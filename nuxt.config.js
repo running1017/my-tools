@@ -62,6 +62,9 @@ export default {
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    // treeShake: true,
+    // カスタムフォントをローカルで確認したい場合はtreeShake: true
+    // ビルドが重くなるのでコメントアウト
     theme: {
       dark: true,
       themes: {
