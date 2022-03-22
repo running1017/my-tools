@@ -13,7 +13,7 @@
             <v-row>
               <v-col>
                 <v-textarea
-                  v-model="before"
+                  v-model="beforeText"
                   label="変換前テキスト"
                   rows="1"
                   auto-grow
@@ -30,7 +30,7 @@
             <v-row>
               <v-col>
                 <v-textarea
-                  v-model="after"
+                  v-model="afterText"
                   label="変換後テキスト"
                   rows="1"
                   auto-grow
@@ -47,10 +47,8 @@
         <v-card height="100%">
           <v-container>
             <v-row>
-              <v-col v-for="rule in rules" :key="rule.id">
-                <div>
-                  <p>{{ rule.pattern }}→{{ rule.newSubstr }}</p>
-                </div>
+              <v-col v-for="(ruleGroup, i) in ruleGroups" :key="i" cols="12">
+                <TextFormatterRuleGroupEditor :id="i" :rule-group="ruleGroup" @update="update" />
               </v-col>
             </v-row>
           </v-container>
@@ -62,7 +60,7 @@
 
 <script>
 import pages from '~/assets/pages'
-import { replaceByRules } from '~/assets/textFunc'
+import { replaceByRules, preset } from '~/assets/textFunc'
 const { title, description } = pages.find((p) => p.name === 'text-formatter')
 
 export default {
@@ -70,21 +68,25 @@ export default {
   data: () => ({
     title,
     description,
-    before: '',
-    rules: [
-      { id: 0, pattern: '\\w', newSubstr: '--', reg: true, all: true },
-      { id: 1, pattern: '\\w', newSubstr: ':', reg: false, all: true },
-    ],
+    beforeText: '',
+    ruleGroups: preset,
   }),
   head: () => ({
     title,
   }),
   computed: {
-    after() {
-      return replaceByRules(this.before, this.rules)
+    flattenRules() {
+      return this.ruleGroups.map((r) => r.rules).flat()
+    },
+    afterText() {
+      return replaceByRules(this.beforeText, this.flattenRules)
     },
   },
-  methods: {},
+  methods: {
+    update(index, newRule) {
+      this.$set(this.ruleGroups[index], 'rules', newRule)
+    },
+  },
 }
 </script>
 
