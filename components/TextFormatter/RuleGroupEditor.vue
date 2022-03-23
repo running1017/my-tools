@@ -1,32 +1,19 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <v-card flat>{{ ruleGroup.name }}</v-card>
-      </v-col>
-      <v-col>
-        <v-dialog v-model="dialog" width="500">
-          <template #activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" v-on="on">
-              <v-icon>mdi-cog</v-icon>
-            </v-btn>
-          </template>
-
-          <v-card color="grey darken-2">
-            <v-card-title>{{ ruleGroup.name }}</v-card-title>
-            <v-card-text>
-              <TextFormatterRuleEditor
-                v-for="(rule, i) in rules"
-                :key="i"
-                :rule="rule"
-                @update="update"
-              />
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </v-col>
-    </v-row>
-  </v-container>
+  <v-card color="grey darken-2">
+    <v-card-title>
+      <span>{{ ruleGroup.name }}</span>
+      <v-spacer></v-spacer>
+      <v-icon @click="close">mdi-close</v-icon>
+    </v-card-title>
+    <v-card-text>
+      <TextFormatterRuleEditor
+        v-for="(rule, i) in ruleGroup.rules"
+        :key="i"
+        :rule="rule"
+        @update="update"
+      />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -35,31 +22,24 @@ export default {
     ruleGroup: {
       type: Object,
       default: () => ({
+        id: null,
         name: '',
         rules: [],
       }),
     },
-    id: {
-      type: Number,
-      default: null,
-    },
   },
   data: () => ({
     dialog: false,
-    rules: [],
   }),
-  mounted() {
-    this.resetRules()
-  },
   methods: {
     update(newRule) {
-      const updateIndex = this.rules.findIndex((el) => el.id === newRule.id)
-      this.rules.splice(updateIndex, 1, newRule)
-      this.$emit('update', this.id, this.rules)
+      const updateIndex = this.ruleGroup.rules.findIndex((el) => el.id === newRule.id)
+      const newRules = [...this.ruleGroup.rules]
+      newRules[updateIndex] = newRule
+      this.$emit('update', this.ruleGroup.id, newRules)
     },
-    resetRules() {
-      this.rules.splice(0, this.rules.length)
-      this.rules.push(...this.ruleGroup.rules)
+    close() {
+      this.$emit('close')
     },
   },
 }

@@ -7,8 +7,8 @@
       <p>{{ description }}</p>
     </v-row>
     <v-row>
-      <v-col cols="12" md="8">
-        <v-card height="100%">
+      <v-col cols="12" md="6">
+        <v-card :height="cardHeight">
           <v-container>
             <v-row>
               <v-col>
@@ -43,15 +43,27 @@
           </v-container>
         </v-card>
       </v-col>
-      <v-col cols="12" md="4">
-        <v-card height="100%">
-          <v-container>
-            <v-row>
-              <v-col v-for="(ruleGroup, i) in ruleGroups" :key="i" cols="12">
-                <TextFormatterRuleGroupEditor :id="i" :rule-group="ruleGroup" @update="update" />
+      <v-col cols="12" md="6">
+        <v-card :height="cardHeight">
+          <v-container v-show="!showEditor" style="position: absolute">
+            <v-row v-for="(ruleGroup, i) in ruleGroups" :key="i">
+              <v-col>
+                <p>{{ ruleGroup.name }}</p>
+              </v-col>
+              <v-col>
+                <v-icon @click="openEditor(i, ruleGroup)">mdi-cog</v-icon>
               </v-col>
             </v-row>
           </v-container>
+          <v-scroll-y-transition>
+            <v-container v-show="showEditor">
+              <TextFormatterRuleGroupEditor
+                :rule-group="editRuleGroup"
+                @update="update"
+                @close="showEditor = false"
+              />
+            </v-container>
+          </v-scroll-y-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -69,7 +81,13 @@ export default {
     title,
     description,
     beforeText: '',
+    editRuleGroup: {
+      id: null,
+      name: '',
+      rules: [],
+    },
     ruleGroups: preset,
+    showEditor: false,
   }),
   head: () => ({
     title,
@@ -81,10 +99,29 @@ export default {
     afterText() {
       return replaceByRules(this.beforeText, this.flattenRules)
     },
+    cardHeight() {
+      // 画面サイズに合わせて高さを変更する
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs':
+        case 'sm':
+        case 'md':
+          return '400px'
+        case 'lg':
+          return '500px'
+        case 'xl':
+          return '630px'
+        default:
+          return undefined
+      }
+    },
   },
   methods: {
     update(index, newRule) {
       this.$set(this.ruleGroups[index], 'rules', newRule)
+    },
+    openEditor(index, ruleGroup) {
+      Object.assign(this.editRuleGroup, { ...ruleGroup, id: index })
+      this.showEditor = true
     },
   },
 }
