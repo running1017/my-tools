@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import pages from '~/assets/pages'
+import { pages } from '~/assets/pages'
 const { title, description } = pages.find((p) => p.name === 'schedule')
 
 export default {

@@ -71,7 +71,7 @@
 </template>
 
 <script>
-import pages from '~/assets/pages'
+import { pages } from '~/assets/pages'
 import { replaceByRules, preset } from '~/assets/textFunc'
 const { title, description } = pages.find((p) => p.name === 'text-formatter')
 

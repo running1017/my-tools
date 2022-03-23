@@ -1,4 +1,4 @@
-export default [
+export const pages = [
   {
     name: 'schedule',
     title: 'スケジュール調整文',
