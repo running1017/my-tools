@@ -17,7 +17,7 @@ describe.each([
   [7.5, true, '07:30'],
   [7.5, false, '7:30'],
   [12.25, true, '12:15'],
-  [12.25, false, '12:15'],
+  [12.25, false, '12:1'],
 ])('timeFormatter', (time, padding, expected) => {
   test(`return ${expected} padding${padding ? 'あり' : 'なし'}`, () => {
     expect(timeFormatter(time, padding)).toBe(expected)
