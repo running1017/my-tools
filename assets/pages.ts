@@ -1,4 +1,13 @@
-export const pages = [
+type Page = {
+  name: string
+  title: string
+  description: string
+  icon: string
+  to: string
+  img: string
+}
+
+export const pages: Array<Page> = [
   {
     name: 'schedule',
     title: 'スケジュール調整文',
