@@ -10,9 +10,7 @@ type FormattedDateTime = {
 }
 
 export const dateFormatter = (dateStr: string, datePadding: boolean): string => {
-  /* YYYY-MM-DD表記をMM/DD（曜日）形式に変換
-   * '2022-03-09' => '03/09（水）'
-   */
+  // YYYY-MM-DD表記をMM/DD（曜日）形式に変換
   const padding = datePadding ? 2 : 0
   const dateObj = new Date(dateStr)
   const month = String(dateObj.getMonth() + 1).padStart(padding, '0')
@@ -23,11 +21,7 @@ export const dateFormatter = (dateStr: string, datePadding: boolean): string => 
 }
 
 export const timeFormatter = (time: number, timePadding: boolean): string => {
-  /* 時刻表記の数値をHH:MM形式の文字列に変換
-   * 5     => '05:00'
-   * 7.5   => '07:30'
-   * 12.25 => '12:15'
-   */
+  // 時刻表記の数値をHH:MM形式の文字列に変換
   const padding = timePadding ? 2 : 0
   const hour: number = Math.floor(time)
   const hourStr: string = String(hour).padStart(padding, '0')
@@ -42,10 +36,7 @@ export const timeListFormatter = (
   timeSeparator: string,
   comma: string
 ): string => {
-  /* 時刻幅のリストをtimeFormatterを利用して文字列に変換
-   * [[1.5, 3], [10, 15.25]]
-   *   => '01:30～03:00、10:00～15:15'
-   */
+  // 時刻幅のリストをtimeFormatterを利用して文字列に変換
   return timeList
     .map(([start, end]) => {
       const startStr = timeFormatter(start, timePadding)

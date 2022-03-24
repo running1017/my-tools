@@ -1,5 +1,6 @@
 import { dateFormatter, timeFormatter, timeListFormatter } from '../assets/scheduleFunc'
 
+// dateFormatter
 describe.each([
   ['2022-03-09', true, '03/09（水）'],
   ['2022-03-09', false, '3/9（水）'],
@@ -9,6 +10,7 @@ describe.each([
   })
 })
 
+// timeFormatter
 describe.each([
   [5, true, '05:00'],
   [5, false, '5:00'],
@@ -22,6 +24,7 @@ describe.each([
   })
 })
 
+// timeListFormatter
 describe.each([
   [[[5, 7.5]], false, '～', '、', '5:00～7:30'],
   [
