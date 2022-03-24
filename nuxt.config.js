@@ -3,6 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 const base = process.env.NODE_ENV === 'production' ? '/my-tools/' : '/'
 
 export default {
+  srcDir: 'src/',
+
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
